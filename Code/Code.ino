@@ -11,6 +11,30 @@ const int xPin = A0;
 const int yPin = A1;
 const int swPin = A2;
 
+
+// lcd variables
+const byte rs = 9;
+const byte en = 8;
+const byte d4 = 7;
+const byte d5 = 6;
+const byte d6 = 5;
+const byte d7 = 4;
+
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+
+// Pins for brightness
+const int backlightPin = 3;
+const int potentiometerPin = A3;
+
+
+// Custom characters
+byte heartIcon[8] = { B00000, B00000, B01010, B11111, B11111, B01110, B00100, B00000 };
+byte fruitIcon[8] = { B00000, B00010, B00100, B01110, B10111, B11111, B01110, B00000 };
+byte arrowIcon[8] = { B00000, B00000, B01000, B01100, B01110, B01100, B01000, B00000 };
+byte blockIcon[8] = { B11111, B11001, B11101, B11101, B11111, B11111, B11111, B11111 };
+
+// --------------------------------------------------------------------
+
 // Buzzer variables
 struct BuzzerNote {
   int frequency;
@@ -52,6 +76,9 @@ int moveIntervalSnake = 200;  // tune this parameter for player speed
 unsigned long lastMoved = 0;
 unsigned long lastMovedSnake = 0;
  
+
+// ----------------------------------------------------------
+
 // LedControl object for matrix
 LedControl lc = LedControl(dinPin, clockPin, loadPin, 1); // DIN, CLK, LOAD, number of devices
  
@@ -72,48 +99,31 @@ byte soundState = HIGH;
  
 
 // --------------------------------------------------------------------
-// lcd variables
-
-const byte rs = 9;
-const byte en = 8;
-const byte d4 = 7;
-const byte d5 = 6;
-const byte d6 = 5;
-const byte d7 = 4;
-
-LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
-
-// Pins for brightness
-const int backlightPin = 3;
-const int potentiometerPin = A3;
-
-
-// Custom characters
-byte heartIcon[8] = { B00000, B00000, B01010, B11111, B11111, B01110, B00100, B00000 };
-byte fruitIcon[8] = { B00000, B00010, B00100, B01110, B10111, B11111, B01110, B00000 };
-byte arrowIcon[8] = { B00000, B00000, B01000, B01100, B01110, B01100, B01000, B00000 };
-byte blockIcon[8] = { B11111, B11001, B11101, B11101, B11111, B11111, B11111, B11111 };
-// --------------------------------------------------------------------
-
 
 // Menu variables
 int gameState = 1; // 0 while playing, others while viewing menu
-int selectedItem = 0; // current item displayed on menu
-int selectedMenu = 0; // 0 for main menu, rest are submenus
+/*
+  0 - currently playing; showing live score
+  1 - viewing main menu
+  2 - viewing settings menu
+  3 - showing game info
+  4 - after death display
+  5 - leaderboard
+*/
+
+// delays for info page
 int infoDelayTime = 0;
 int infoDelayInterval = 1500;
 
 String mainMenuItems[] = {"Start!", "Settings", "About the game"};
-int mainMenuCurrentItem = 0; // current item displayed on menu
 String settingsMenuItems[] = {"Menu light", "Game light", "Sounds", "Go back"};
+int mainMenuCurrentItem = 0; // current item displayed on menu
 int settingsMenuCurrentItem = 0;
-
 
 int bestScores[3] = {0, 0, 0};
 int bestScoresNumber = 3;
 int bestScoresEepromAddress = 3;
 int scoreDisplayed = 0;
-
 
 // --------------------------------------------------------------------
 
@@ -140,15 +150,12 @@ Direction lastDirection = {1, 0};
 // Fruit variables
 Coordinate fruit;
 bool fruitSpawned = false;
-// unsigned int fruitSpawnInterval = 100;
 unsigned int fruitBlinkInterval = 100;
 unsigned int fruitLastBlink = 0;
 bool fruitOn = false;
 unsigned int fruitsEaten = 0;
 
 unsigned int remainingLives = 3;
-
-
 
 // --------------------------------------------------------------------
 
@@ -682,18 +689,11 @@ void checkEatFruit(){
   if (snake[0].x == fruit.x && snake[0].y == fruit.y) {
     // Serial.println("Fruit eaten");
     fruitsEaten++;
+    moveIntervalSnake -= 5;
     buzzerEatFruit();
 
     fruitSpawned = false;
     generateFruit();
-
-    // if (fruitsEaten % 3 == 0) { // for every 3 fruits eaten, snake size and speed is raised
-    //   growSnake();
-    //   moveIntervalSnake -= 10;
-      
-    //   Serial.print("Snake size: ");
-    //   Serial.println(snakeSize);
-    // }
   }
 }
 
