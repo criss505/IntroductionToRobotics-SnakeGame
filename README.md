@@ -4,6 +4,11 @@
 
 A classic Snake Game implemented on Arduino using an LCD, a LED matrix and  a joystick.
 
+<img src="Board_Setup.jpeg" width=400>
+-> <a href="https://youtu.be/gFb9hsnGOSs">a short video presentation</a>
+<br><br>
+
+
 ## Table of Contents
 - [Introduction](#introduction)
 - [Features](#features)
