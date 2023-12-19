@@ -18,11 +18,13 @@ A classic Snake Game implemented on Arduino using an LCD, a LED matrix and  a jo
 - [How to Play](#how-to-play)
 - [Gameplay](#gameplay)
 - [Settings](#settings)
+- [Task Requirements](#task-requirements)
 
 
 ## Introduction
 
 Welcome to my mini Snake Game for Arduino! This project brings the classic Snake game to life using a LED matrix and an LCD. Control the snake using the joystick and see how how many fruits you can collect.
+This was the only game I had installed on my first phone ever, so I hope every player will feel a bit nostalgic of their first Nokia when playing as well!
 
 ## Features
 
@@ -72,3 +74,17 @@ Navigate the snake on the LED matrix, eat fruits to get a high score and avoid c
 ## Settings
 
 Feel free to set the game to suit your preferences. You can adjust the brightness or turn the sound ON/OFF.
+
+
+## Task Requirements
+Overall
+- Utilize minimal components for the game, including an LCD, a joystick, a buzzer, and an LED matrix.
+- Add basic sounds, blinking fruits to separate from player and raise difficulty progressively.
+- Make sure the final result is fun and makes sense overall.
+
+Menu Display
+- Show a greeting message when powering up.
+- Main menu should include "Start game", "Settings" and "About" sections.
+- While in settings you can adjust LCD and matrix brightness, as well as turning sounds on/off (all save to eeprom).
+- While in game you should be able to see relevant info on display (lives, level, score etc.).
+- When the game is over display relevant info about the played game and inform the player whether they beat the highscore
